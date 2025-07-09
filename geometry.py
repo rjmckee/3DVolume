@@ -10,8 +10,6 @@ from mpl_toolkits import mplot3d
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from matplotlib.tri import Triangulation
 
-
-
 questions = [
         inquirer.List('volume',
                       message="Which shape do you want to use?",
