@@ -10,6 +10,7 @@ from mpl_toolkits import mplot3d
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from matplotlib.tri import Triangulation
 
+# Select which 3D shape 
 questions = [
         inquirer.List('volume',
                       message="Which shape do you want to use?",
@@ -21,7 +22,9 @@ if choice == 'Sphere':
    # put additional questions for area, volume
    r=float(input("Enter a radius of the sphere: "))
    phi, theta = np.mgrid[0:2*np.pi:50j, 0:np.pi:50j]
-   V=4/3*math.pi*(r*r*r)   
+   V=4/3*math.pi*(r**3)   
+   SA=4*np.pi*(r**2)
+   print("The surface area of the sphere is: ", SA)
    print("The volume of the sphere is: ",V)
    x=r*np.sin(phi)*np.cos(theta)
    y=r*np.sin(phi)*np.sin(theta)
@@ -37,6 +40,8 @@ elif choice == 'Pyramid':
    w=float(input("Enter a base width: "))
    h=float(input("Enter a base height: "))
    V=(l*w*h)/3
+   SA=l*w+(l*(np.sqrt(((w/2)**2)+(h**2))))+(w*(np.sqrt(((l/2)**2)+(h**2))))
+   print("The surface area of the right rectangular pyramid is: ", SA)
    print("The volume of the right rectangular pyramid is: ",V)
    # define vertices
    v= np.array([[0, 0, 0], [l, 0, 0], [l, w, 0], [0, w, 0],[l/2, w/2, h]])
@@ -50,13 +55,17 @@ elif choice == 'Pyramid':
    ax.set_label('X')
    ax.set_label('Y')
    ax.set_label('Z')
-   ax.set_xlim([0, l+1])
-   ax.set_ylim([0, w+1])
-   ax.set_zlim([0, h+1])
+   gt=max(l,w,h)
+   ax.set_xlim([0, gt+1])
+   ax.set_ylim([0, gt+1])
+   ax.set_zlim([0, gt+1])
+   ax.set_box_aspect([1,1,1])
    plt.show()
 elif choice == 'Cube':
    a=float(input("The side length of the cube is: "))
    V=a*a*a
+   SA=6*a**2
+   print("The surface area of the cube is: ", SA)
    print("The volume of the cube is: ",V)
    x=[0,a,a,0,0,a,a,0]
    y=[0,0,a,a,0,0,a,a]
@@ -70,11 +79,20 @@ elif choice == 'Cube':
    ax.scatter(x,y,z)
    ax.add_collection3d(Poly3DCollection(poly3d, facecolors='r', linewidths=1, alpha=0.5))
    ax.set_title('Cube')
+   ax.set_label('X')
+   ax.set_label('Y')
+   ax.set_label('Z')
+   ax.set_xlim([0, a+1])
+   ax.set_ylim([0, a+1])
+   ax.set_zlim([0, a+1])
+   ax.set_box_aspect([1,1,1])
    plt.show()
 elif choice == 'Cone':
    radius=float(input("Enter a radius: "))
    h=float(input("Enter the height of the right cylinder cone: "))
    V=math.pi*(radius**2)*(h/3)
+   SA=np.pi*r*(r+(np.sqrt((h**2)+(r**2))))
+   print("The surface area of the cone is: ", SA)
    print("The volume of the cone is: ",V)
    num_points =50
    theta=np.linspace(0, 2*np.pi, num_points)
@@ -90,11 +108,18 @@ elif choice == 'Cone':
    ax.set_xlabel('X axis')
    ax.set_ylabel('Y axis')
    ax.set_zlabel('Z axis')
+   gt=max(r,h)
+   ax.set_xlim([0, gt+1])
+   ax.set_ylim([0, gt+1])
+   ax.set_zlim([0, gt+1])
+   ax.set_box_aspect([1,1,1])
    plt.show()
 elif choice == 'Cylinder':
    r=float(input("Enter a radius for the right cylinder: "))
    h=float(input("Enter the height for the right cylinder: "))
    V=math.pi*(r**2)*h
+   SA=(2*np.pi*r*h)+(2*np.pi*(r**2))
+   print("The surface area of the cylinder is: ", SA)
    print("The volume of the cylinder is: ",V)
    theta=np.linspace(0, 2*np.pi, 100)
    z=np.linspace(0,h, 50)
@@ -108,4 +133,9 @@ elif choice == 'Cylinder':
    ax.set_xlabel('X axis')
    ax.set_ylabel('Y axis')
    ax.set_zlabel('Z axis')
+   gt=max(r,h)
+   ax.set_xlim([0, gt+1])
+   ax.set_ylim([0, gt+1])
+   ax.set_zlim([0, gt+1])
+   ax.set_box_aspect([1,1,1])
    plt.show()
